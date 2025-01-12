@@ -1,11 +1,12 @@
 package com.heyrr.organization.services;
 
-import com.heyrr.organization.models.Group;
 import com.heyrr.organization.payloads.GroupPayload;
+
+import java.util.UUID;
 
 public interface GroupService {
 
-    String createGroup(GroupPayload groupPayload);
+    UUID createGroup(GroupPayload groupPayload);
 
-    Group findByGroupPk(String groupPk);
+    boolean findByGroupPk(UUID groupPk);
 }

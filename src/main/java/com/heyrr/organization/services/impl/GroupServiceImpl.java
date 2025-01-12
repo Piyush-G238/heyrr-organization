@@ -1,7 +1,6 @@
 package com.heyrr.organization.services.impl;
 
 import com.heyrr.organization.exceptions.ResourceAlreadyExistsException;
-import com.heyrr.organization.exceptions.ResourceNotFoundException;
 import com.heyrr.organization.mappers.GroupMapper;
 import com.heyrr.organization.models.Group;
 import com.heyrr.organization.payloads.GroupPayload;
@@ -10,19 +9,22 @@ import com.heyrr.organization.services.GroupService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 @AllArgsConstructor
 public class GroupServiceImpl implements GroupService {
 
     private final GroupRepository groupRepository;
 
-    private final GroupMapper groupMapper;
+    private final GroupMapper groupMapper = new GroupMapper();
 
     @Override
-    public String createGroup(GroupPayload groupPayload) {
-        boolean existsById = groupRepository.existsByGroupId(groupPayload.getGroupId());
-        if (existsById)
-            throw new ResourceAlreadyExistsException("Group", "groupId", groupPayload.getGroupId());
+    public UUID createGroup(GroupPayload groupPayload) {
+        String groupName = groupPayload.getGroupName();
+        boolean existsByName = groupRepository.existsByGroupName(groupName);
+        if (existsByName)
+            throw new ResourceAlreadyExistsException("Group", "groupName", groupName);
         Group group = groupMapper.createGroup(groupPayload);
         groupRepository.save(group);
 
@@ -30,9 +32,7 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public Group findByGroupPk(String groupPk) {
-        return groupRepository
-                .findById(groupPk)
-                .orElseThrow(() -> new ResourceNotFoundException("Group", "groupPk", groupPk));
+    public boolean findByGroupPk(UUID groupPk) {
+        return groupRepository.existsById(groupPk);
     }
 }

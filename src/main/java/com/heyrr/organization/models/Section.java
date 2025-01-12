@@ -1,21 +1,23 @@
 package com.heyrr.organization.models;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "section_tbl")
+@Getter @Setter
 public class Section extends BaseEntity {
 
     @Id
     @Column(name = "section_pk")
-    private String sectionPk;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID sectionPk;
 
-    @Column(name = "section_id", length = 12, updatable = false, nullable = false)
-    private String sectionId;
-
-    @Column(name = "section_name", length = 50, nullable = false)
+    @Column(name = "section_name", nullable = false, unique = true)
     private String sectionName;
 
     @ManyToMany(fetch = FetchType.LAZY)

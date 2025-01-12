@@ -9,12 +9,13 @@ public class CompanyMapper {
 
     public Company createCompany(CompanyPayload companyPayload) {
         Company company = new Company();
-        company.setCompanyId(companyPayload.getCompanyId());
+        company.setCompanyCode(companyPayload.getCompanyCode());
         company.setCompanyName(companyPayload.getCompanyName());
         company.setRemarks(companyPayload.getRemarks());
         company.setCompanyLogoUrl(companyPayload.getCompanyLogoUrl());
         company.setEmail(companyPayload.getEmail());
         company.setUrl(companyPayload.getUrl());
+        company.setParent(companyPayload.isParent());
         return company;
     }
 }

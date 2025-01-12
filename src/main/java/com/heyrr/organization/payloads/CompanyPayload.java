@@ -13,8 +13,7 @@ import lombok.ToString;
 public class CompanyPayload extends BasePayload {
 
     @NotBlank(message = "companyId cannot be blank")
-    @Size(max = 12, message = "companyId cannot exceed more than 12 characters")
-    private String companyId;
+    private String companyCode;
 
     @NotBlank(message = "companyName cannot be blank")
     @Size(max = 50, message = "companyName cannot exceed more than 12 characters")
@@ -23,11 +22,9 @@ public class CompanyPayload extends BasePayload {
     private String companyLogoUrl;
 
     @NotBlank(message = "email cannot be blank")
-    @Size(max = 50, message = "email cannot exceed more than 50 characters")
     private String email;
 
     @NotBlank(message = "url cannot be blank")
-    @Size(max = 50, message = "url cannot exceed more than 50 characters")
     private String url;
 
     @NotNull(message = "group cannot be null")

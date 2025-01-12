@@ -14,13 +14,10 @@ public class EmployeeType extends BaseEntity{
     @Column(name = "employee_type_pk")
     private String employeeTypePk;
 
-    @Column(name = "employee_type_id", length = 12, updatable = false, nullable = false)
-    private String employeeTypeId;
-
-    @Column(name = "employee_type_name", length = 50, nullable = false)
+    @Column(name = "employee_type_name", unique = true, nullable = false)
     private String employeeTypeName;
 
-    @ManyToOne
-    @JoinColumn(name = "business_unit_pk")
-    private BusinessUnit businessUnit;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "company_pk")
+    private Company company;
 }
