@@ -28,9 +28,9 @@ public class CompanyPayload extends BasePayload {
     private String url;
 
     @NotNull(message = "group cannot be null")
-    private String groupPk;
+    private Long groupPk;
 
     private boolean isParent = true;
 
-    private String parentCompanyPk;
+    private Long parentCompanyPk;
 }

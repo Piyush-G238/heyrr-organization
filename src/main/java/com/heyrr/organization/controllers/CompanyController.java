@@ -10,10 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.UUID;
-
 @RestController
-@RequestMapping(path = "/api/companies")
+@RequestMapping(path = "/companies")
 @AllArgsConstructor
 public class CompanyController {
 
@@ -21,11 +19,11 @@ public class CompanyController {
 
     @PostMapping(consumes = "multipart/form-data", produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    GenericPayload<String> createCompany(
+    GenericPayload<Long> createCompany(
             @Valid @RequestPart(name = "payload") CompanyPayload companyPayload,
             @RequestPart(name = "attachment", required = false) MultipartFile multipartFile) {
 
-        UUID newCompanyPk = companyService.createCompany(companyPayload, multipartFile);
-        return new GenericPayload<>(StringConstant.COMPANY_CREATED, newCompanyPk.toString(), 0);
+        Long newCompanyPk = companyService.createCompany(companyPayload, multipartFile);
+        return new GenericPayload<>(StringConstant.COMPANY_CREATED, newCompanyPk, 0);
     }
 }

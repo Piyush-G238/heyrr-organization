@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.UUID;
-
 @Entity
 @Table(name = "division_tbl")
 @Getter
@@ -14,10 +12,11 @@ public class Division extends BaseEntity{
 
     @Id
     @Column(name = "division_pk")
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID divisionPk;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "division_seq")
+    @SequenceGenerator(name = "division_seq", allocationSize = 1, initialValue = 1001)
+    private Long divisionPk;
 
-    @Column(name = "division_name", length = 50, nullable = false, unique = true)
+    @Column(name = "division_name", length = 50, nullable = false)
     private String divisionName;
 
     @ManyToOne(fetch = FetchType.LAZY)

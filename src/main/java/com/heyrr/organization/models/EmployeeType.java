@@ -12,9 +12,11 @@ public class EmployeeType extends BaseEntity{
 
     @Id
     @Column(name = "employee_type_pk")
-    private String employeeTypePk;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "employee_type_seq")
+    @SequenceGenerator(name = "employee_type_seq", allocationSize = 1, initialValue = 1001)
+    private Long employeeTypePk;
 
-    @Column(name = "employee_type_name", unique = true, nullable = false)
+    @Column(name = "employee_type_name", nullable = false)
     private String employeeTypeName;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -7,13 +7,11 @@ import com.heyrr.organization.models.Company;
 import com.heyrr.organization.models.Group;
 import com.heyrr.organization.payloads.CompanyPayload;
 import com.heyrr.organization.repositories.CompanyRepository;
+import com.heyrr.organization.repositories.GroupRepository;
 import com.heyrr.organization.services.CompanyService;
-import com.heyrr.organization.services.GroupService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -21,18 +19,18 @@ public class CompanyServiceImpl implements CompanyService {
 
     private final CompanyRepository companyRepository;
 
-    private final GroupService groupService;
+    private final GroupRepository groupRepository;
 
     private final CompanyMapper companyMapper;
 
     @Override
-    public UUID createCompany(CompanyPayload companyPayload, MultipartFile multipartFile) {
+    public Long createCompany(CompanyPayload companyPayload, MultipartFile multipartFile) {
         boolean existsByCompanyCode = companyRepository.existsByCompanyCode(companyPayload.getCompanyCode());
         if (existsByCompanyCode)
             throw new ResourceAlreadyExistsException("Company", "companyCode", companyPayload.getCompanyCode());
 
-        UUID groupPk = UUID.fromString(companyPayload.getGroupPk());
-        boolean groupExists = groupService.findByGroupPk(groupPk);
+        Long groupPk = companyPayload.getGroupPk();
+        boolean groupExists = groupRepository.existsById(groupPk);
         if (!groupExists)
             throw new ResourceNotFoundException("Group", "groupPk", companyPayload.getGroupPk());
         Company company = companyMapper.createCompany(companyPayload);

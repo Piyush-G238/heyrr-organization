@@ -9,8 +9,6 @@ import com.heyrr.organization.services.GroupService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
-
 @Service
 @AllArgsConstructor
 public class GroupServiceImpl implements GroupService {
@@ -20,7 +18,7 @@ public class GroupServiceImpl implements GroupService {
     private final GroupMapper groupMapper = new GroupMapper();
 
     @Override
-    public UUID createGroup(GroupPayload groupPayload) {
+    public Long createGroup(GroupPayload groupPayload) {
         String groupName = groupPayload.getGroupName();
         boolean existsByName = groupRepository.existsByGroupName(groupName);
         if (existsByName)
@@ -29,10 +27,5 @@ public class GroupServiceImpl implements GroupService {
         groupRepository.save(group);
 
         return group.getGroupPk();
-    }
-
-    @Override
-    public boolean findByGroupPk(UUID groupPk) {
-        return groupRepository.existsById(groupPk);
     }
 }

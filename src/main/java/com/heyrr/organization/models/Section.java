@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Table(name = "section_tbl")
@@ -14,11 +13,16 @@ public class Section extends BaseEntity {
 
     @Id
     @Column(name = "section_pk")
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID sectionPk;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "section_seq")
+    @SequenceGenerator(name = "section_seq", allocationSize = 1, initialValue = 1001)
+    private Long sectionPk;
 
-    @Column(name = "section_name", nullable = false, unique = true)
+    @Column(name = "section_name", nullable = false)
     private String sectionName;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "company_pk")
+    private Company company;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(

@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.UUID;
-
 @Entity
 @Table(name = "company_tbl")
 @Getter @Setter
@@ -13,8 +11,9 @@ public class Company extends BaseEntity {
 
     @Id
     @Column(name = "company_pk")
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID companyPk;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "company_sq")
+    @SequenceGenerator(name = "company_sq", allocationSize = 1, initialValue = 1001)
+    private Long companyPk;
 
     @Column(name = "company_code", unique = true, nullable = false, length = 50)
     private String companyCode;
